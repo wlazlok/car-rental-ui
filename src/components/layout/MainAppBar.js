@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = () => {
+const MainAppBar = () => {
   const classes = useStyles();
 
   return (
@@ -35,4 +35,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default MainAppBar;
