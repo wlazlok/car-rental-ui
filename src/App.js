@@ -8,6 +8,9 @@ import AbourPage from "./pages/AboutPage";
 import GalleryPage from "./pages/GalleryPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
+import AboutProductPage from "./pages/AboutProductPage";
+import AdminProductsPage from "./pages/admin/AdminProductsPage";
+import AdminEditProductPage from "./pages/admin/AdminEditProductPage";
 
 function App() {
   return (
@@ -19,8 +22,11 @@ function App() {
         <Route path="/home">
           <HomePage />
         </Route>
-        <Route path="/products">
+        <Route path="/products" exact>
           <ProductsPage />
+        </Route>
+        <Route path="/products/:productId">
+          <AboutProductPage />
         </Route>
         <Route path="/prices">
           <PricesPage />
@@ -33,6 +39,12 @@ function App() {
         </Route>
         <Route path="/contact">
           <ContactPage />
+        </Route>
+        <Route path="/admin" exact>
+          <AdminProductsPage />
+        </Route>
+        <Route path="/admin/edit/:productId" exact>
+          <AdminEditProductPage />
         </Route>
         <Route path="*">
           <NotFound />

@@ -40,6 +40,11 @@ const MainNavigation = () => {
               Kontakt
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/admin" activeClassName={classes.active}>
+              Admin - usunąć
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>

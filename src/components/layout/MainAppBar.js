@@ -4,6 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { version } from "../../../package.json";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -26,7 +27,8 @@ const MainAppBar = () => {
       <AppBar position="static" className={classes.main}>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Karol's Car Rental
+            {/* Karol's Car Rental */}
+            TUTAJ NAZWA <font size={1}>v{version} </font>
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
