@@ -1,6 +1,6 @@
 {
   "name": "car-rental",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "dependencies": {
     "3d-react-carousal": "^4.0.2",
