@@ -76,7 +76,7 @@ const AddEditProductForm = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const isNew = props.isNew;
+  const isNew = !!props.isNew ? props.isNew : true;
   const data = props.data ? props.data : {};
 
   const initValues = prepareInitValues(isNew, data);
@@ -146,7 +146,7 @@ const AddEditProductForm = (props) => {
                 marginTop: "2%",
               }}
             >
-              <Row>
+              <Row className="justify-content-md-center">
                 <Col lg="2">Nazwa:</Col>
                 <Col lg="4">
                   <Field
@@ -174,7 +174,10 @@ const AddEditProductForm = (props) => {
                     printError(errors.dayPrice)}
                 </Col>
               </Row>
-              <Row className={classes.row}>
+              <Row
+                style={{ marginTop: "1%" }}
+                className="justify-content-md-center"
+              >
                 <Col lg="2">Skrzynia:</Col>
                 <Col lg="4">
                   <Field
@@ -200,7 +203,10 @@ const AddEditProductForm = (props) => {
                   {errors.drive && touched.drive && printError(errors.drive)}
                 </Col>
               </Row>
-              <Row className={classes.row}>
+              <Row
+                style={{ marginTop: "1%" }}
+                className="justify-content-md-center"
+              >
                 <Col lg="2">Silnik:</Col>
                 <Col lg="1">
                   <Field
@@ -237,7 +243,10 @@ const AddEditProductForm = (props) => {
                     printError(errors.productionYear)}
                 </Col>
               </Row>
-              <Row className={classes.row}>
+              <Row
+                style={{ marginTop: "1%" }}
+                className="justify-content-md-center"
+              >
                 <Col lg="2">Limik (KM) dzienny:</Col>
                 <Col lg="1">
                   <Field
@@ -251,6 +260,10 @@ const AddEditProductForm = (props) => {
                     touched.distanceLimitPerDay &&
                     printError(errors.distanceLimitPerDay)}
                 </Col>
+                <Col lg="2"></Col>
+                <Col lg="1"></Col>
+                <Col lg="2"></Col>
+                <Col lg="1"></Col>
               </Row>
               <Row>
                 <Col>
@@ -258,7 +271,7 @@ const AddEditProductForm = (props) => {
                     variant="outlined"
                     type="submit"
                     size="lg"
-                    style={{ marginTop: "2%" }}
+                    style={{ marginTop: "2%", marginLeft: "81%" }}
                   >
                     Zapisz
                   </Button>

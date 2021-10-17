@@ -34,10 +34,39 @@ const ProductsPage = () => {
     fetchpProductList();
   }, []);
 
+  const deleteProduct = async (productId) => {
+    setIsError(false);
+    await axios
+      .delete(`http://localhost:9010/admin/products/delete/${productId}`)
+      .then((result) => {
+        setResponse(result.data);
+        dispatch(
+          alertActions.showAlert({
+            msg: `${result.data.successMessage}`,
+            flag: true,
+            status: "ok",
+          })
+        );
+      })
+      .catch((err) => {
+        setIsError(true);
+        dispatch(
+          alertActions.showAlert({
+            msg: "Wystąpił błąd podczas usuwania danych",
+            flag: true,
+            status: "fail",
+          })
+        );
+      });
+  };
+
   return (
     <div>
       {!isLoading && !isError && response && (
-        <AdminProductsTable list={response.products} />
+        <AdminProductsTable
+          list={response.products}
+          onDeleteProduct={deleteProduct}
+        />
       )}
     </div>
   );

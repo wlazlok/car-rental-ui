@@ -1,37 +1,44 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row, Container } from "react-bootstrap";
 import ContactForm from "../components/ContactForm/ContactForm";
 
 const useStyles = makeStyles({
   title: {
-    "margin-top": "2%",
-    "text-align": "center",
+    marginTop: "2%",
+    textAlign: "center",
+    marginBottom: "2%",
   },
   body: {
-    "margin-left": "25%",
-    "margin-top": "5%",
+    marginLeft: "25%",
+    marginTop: "5%",
+  },
+  card: {
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: "2%",
+    width: "50%",
   },
 });
 
 const ContectPage = () => {
   const classes = useStyles();
+
   return (
     <div>
       <h1 className={classes.title}>
         <b>KONTAKT Z NAMI</b>
       </h1>
-      <div className={classes.body}>
+      <Container>
         <Row>
-          <Col md={3}>
-            <Card
-              bg={"light"}
-              style={{
-                width: "25rem",
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-              }}
-            >
-              <Card.Body>
+          <Col>
+            <ContactForm />
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Card bg={"light"} className={classes.card}>
+            <Card.Body>
+              <Col>
                 <Card.Text>DANE FIRMY</Card.Text>
                 <Card.Text>TEST sp. z o.o.</Card.Text>
                 <Card.Text>ul. Warszawska 1A </Card.Text>
@@ -43,14 +50,11 @@ const ContectPage = () => {
                 <Card.Text>test@email.com</Card.Text>
                 <Card.Text>Czynne od poniedziałku do</Card.Text>
                 <Card.Text>soboty w godzinach 9:00 – 17:00</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={6}>
-            <ContactForm />
-          </Col>
+              </Col>
+            </Card.Body>
+          </Card>
         </Row>
-      </div>
+      </Container>
     </div>
   );
 };

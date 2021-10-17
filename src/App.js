@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import AboutProductPage from "./pages/AboutProductPage";
 import AdminProductsPage from "./pages/admin/AdminProductsPage";
 import AdminEditProductPage from "./pages/admin/AdminEditProductPage";
+import AdminAddProductPage from "./pages/admin/AdminAddProductPage";
 
 function App() {
   return (
@@ -45,6 +46,9 @@ function App() {
         </Route>
         <Route path="/admin/edit/:productId" exact>
           <AdminEditProductPage />
+        </Route>
+        <Route path="/admin/add">
+          <AdminAddProductPage />
         </Route>
         <Route path="*">
           <NotFound />

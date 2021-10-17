@@ -21,13 +21,12 @@ const useStyles = makeStyles((theme) => ({
 const CardItem = (props) => {
   const classes = useStyles();
   const cardItem = props.item;
-
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt={`${cardItem.productName}`}
           height="400rem"
           image={`https://res.cloudinary.com/dfurufcqe/image/upload/v1616604961/${cardItem.cloudinaryMainImageId}`}
           title="Contemplative Reptile"

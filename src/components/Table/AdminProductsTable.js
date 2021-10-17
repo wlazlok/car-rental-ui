@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import React from "react";
+import PopupDialog from "../Dialogs/PopupDialog";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
 const AdminProductsTable = (props) => {
   const classes = useStyles();
   const products = props.list;
+
+  const deleteProduct = async (productId) => {
+    // props.onDeleteProduct(productId);
+  };
 
   return (
     <div className={classes.box}>
@@ -60,15 +64,26 @@ const AdminProductsTable = (props) => {
                   </Link>
                 </TableCell>
                 <TableCell align="right">
-                  <Button variant="outlined" color="error">
+                  {/* <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => {
+                      deleteProduct(row.productId);
+                    }}
+                  >
                     Usuń
-                  </Button>
+                  </Button> */}
+                  {/* <PopupDialog onDelete=/> */}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <Link to={`/admin/add`}>
+        <Button variant="outlined">Dodaj</Button>
+      </Link>
+      {/* todo: dodanie IconButton z svg + */}
     </div>
   );
 };
