@@ -6,6 +6,8 @@ import { alertActions } from "../../store/alert-slice";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import axios from "axios";
 
+const host = process.env.REACT_APP_API_ENDPOINT;
+
 const validateEmptyField = (value) => {
   let error;
   if (!value || value.split() === 0 || value.length === 0) {
@@ -43,7 +45,7 @@ const validateNumber = (value) => {
 
 const sendData = async (values) => {
   return await axios
-    .post("http://localhost:9010/api/react/contact-form", {
+    .post(`${host}/api/react/contact-form`, {
       firstName: values.firstName,
       secondName: values.secondName,
       emailAddress: values.email,

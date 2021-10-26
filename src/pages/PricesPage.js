@@ -9,13 +9,14 @@ const PricesPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [response, setResponse] = useState(null);
+  const host = process.env.REACT_APP_API_ENDPOINT;
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       setIsLoading(true);
       setIsError(false);
       await axios
-        .get(`http://localhost:9010/api/react/product/prices`)
+        .get(`${host}/api/react/product/prices`)
         .then((result) => {
           setResponse(result.data);
         })

@@ -1,7 +1,7 @@
 import AddEditProductForm from "../../components/Admin/AddEditProductForm/AddEditProductForm";
 
 const AdminAddProductPage = () => {
-  return <AddEditProductForm />;
+  return <AddEditProductForm isNew={true} />;
 };
 
 export default AdminAddProductPage;

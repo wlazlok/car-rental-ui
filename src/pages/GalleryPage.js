@@ -13,6 +13,7 @@ const GalleryPage = () => {
   const [response, setResponse] = useState(null);
   const [imgUrl, setImgUrl] = useState("");
   const dispatch = useDispatch();
+  const host = process.env.REACT_APP_API_ENDPOINT;
 
   const handleClose = () => {
     setImgUrl("");
@@ -28,7 +29,7 @@ const GalleryPage = () => {
       setIsLoading(true);
       setIsError(false);
       await axios
-        .get("http://localhost:9010/api/react/products/images")
+        .get(`${host}/api/react/products/images`)
         .then((result) => {
           setResponse(result.data);
         })

@@ -3,20 +3,23 @@ import { useEffect, useState } from "react";
 import { alertActions } from "../store/alert-slice";
 import { useDispatch } from "react-redux";
 
-const useProductCard = () => {
-  const [response, setResponse] = useState({ errors: null, cardItems: [] });
+const useHttp = (url, method) => {
+  const [response, setResponse] = useState({ errors: null, response: [] });
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const dispatch = useDispatch();
-  const host = process.env.REACT_APP_API_ENDPOINT;
+
+  const config = {
+    method: method,
+    url: `http://localhost:9010${url}`,
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       setIsError(false);
 
-      await axios
-        .get(`${host}/api/react/products`)
+      await axios(config)
         .then((result) => {
           setResponse(result.data);
         })
@@ -32,11 +35,10 @@ const useProductCard = () => {
         });
       setIsLoading(false);
     };
-
     fetchData();
   }, []);
 
   return { isLoading, response, isError };
 };
 
-export default useProductCard;
+export default useHttp;

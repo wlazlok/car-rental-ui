@@ -8,18 +8,25 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 const PopupDialog = (props) => {
   const [open, setOpen] = useState(false);
+  const productId = props.productId;
 
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handlDelete = () => {
+    setOpen(false);
+    props.onDelete(productId);
+  };
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
+      <Button variant="outlined" color="error" onClick={handleOpen}>
+        Usuń
       </Button>
       <Dialog
         open={open}
@@ -27,19 +34,16 @@ const PopupDialog = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">Uwaga!</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
+            Czy na pewno chcesz usunąć element?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
+          <Button onClick={handleClose}>Anuluj</Button>
+          <Button onClick={handlDelete} autoFocus>
+            Usuń
           </Button>
         </DialogActions>
       </Dialog>

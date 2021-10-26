@@ -33,13 +33,14 @@ const AboutProductPage = () => {
   const [response, setResponse] = useState(null);
   const { productId } = useParams();
   const dispatch = useDispatch();
+  const host = process.env.REACT_APP_API_ENDPOINT;
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       setIsLoading(true);
       setIsError(false);
       await axios
-        .get(`http://localhost:9010/api/react/product/${productId}/details`)
+        .get(`${host}/api/react/product/${productId}/details`)
         .then((result) => {
           setResponse(result.data);
         })
@@ -73,7 +74,7 @@ const AboutProductPage = () => {
 
   const addComment = async (message) => {
     await axios
-      .post("http://localhost:9010/api/react/comment/add", {
+      .post(`${host}/api/react/comment/add`, {
         productId: productId,
         message: message,
       })

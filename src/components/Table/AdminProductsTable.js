@@ -26,7 +26,8 @@ const AdminProductsTable = (props) => {
   const products = props.list;
 
   const deleteProduct = async (productId) => {
-    // props.onDeleteProduct(productId);
+    console.log("productId: " + productId);
+    props.onDeleteProduct(productId);
   };
 
   return (
@@ -64,16 +65,10 @@ const AdminProductsTable = (props) => {
                   </Link>
                 </TableCell>
                 <TableCell align="right">
-                  {/* <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={() => {
-                      deleteProduct(row.productId);
-                    }}
-                  >
-                    Usuń
-                  </Button> */}
-                  {/* <PopupDialog onDelete=/> */}
+                  <PopupDialog
+                    onDelete={deleteProduct}
+                    productId={row.productId}
+                  />
                 </TableCell>
               </TableRow>
             ))}

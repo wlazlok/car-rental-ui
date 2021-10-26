@@ -14,6 +14,7 @@ import AdminEditProductPage from "./pages/admin/AdminEditProductPage";
 import AdminAddProductPage from "./pages/admin/AdminAddProductPage";
 
 function App() {
+  console.log(process.env.REACT_APP_API_ENDPOINT);
   return (
     <Layout>
       <Switch>

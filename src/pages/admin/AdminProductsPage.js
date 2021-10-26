@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { alertActions } from "../../store/alert-slice";
 import AdminProductsTable from "../../components/Table/AdminProductsTable";
@@ -9,13 +9,14 @@ const ProductsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
+  const host = process.env.REACT_APP_API_ENDPOINT;
 
   useEffect(() => {
     const fetchpProductList = async () => {
       setIsLoading(true);
       setIsError(false);
       await axios
-        .get("http://localhost:9010/admin/products")
+        .get(`${host}/admin/products`)
         .then((result) => {
           setResponse(result.data);
         })
@@ -37,7 +38,7 @@ const ProductsPage = () => {
   const deleteProduct = async (productId) => {
     setIsError(false);
     await axios
-      .delete(`http://localhost:9010/admin/products/delete/${productId}`)
+      .delete(`${host}/admin/products/delete/${productId}`)
       .then((result) => {
         setResponse(result.data);
         dispatch(
@@ -62,12 +63,15 @@ const ProductsPage = () => {
 
   return (
     <div>
-      {!isLoading && !isError && response && (
-        <AdminProductsTable
-          list={response.products}
-          onDeleteProduct={deleteProduct}
-        />
-      )}
+      {!isLoading &&
+        !isError &&
+        response.products &&
+        response.products.length > 0 && (
+          <AdminProductsTable
+            list={response.products}
+            onDeleteProduct={deleteProduct}
+          />
+        )}
     </div>
   );
 };

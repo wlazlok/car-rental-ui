@@ -11,13 +11,14 @@ const AdminEditProductPage = (props) => {
   const [isError, setIsError] = useState(false);
   const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
+  const host = process.env.REACT_APP_API_ENDPOINT;
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       setIsLoading(true);
       setIsError(false);
       await axios
-        .get(`http://localhost:9010/admin/products/${productId}`)
+        .get(`${host}/admin/products/${productId}`)
         .then((result) => {
           setResponse(result.data);
         })
@@ -36,10 +37,6 @@ const AdminEditProductPage = (props) => {
 
     fetchProductDetails();
   }, []);
-
-  if (!isLoading) {
-    console.log(response);
-  }
 
   return (
     <div>

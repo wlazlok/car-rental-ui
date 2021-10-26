@@ -76,14 +76,14 @@ const AddEditProductForm = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const isNew = !!props.isNew ? props.isNew : true;
+  const isNew = props.isNew;
   const data = props.data ? props.data : {};
-
+  const host = process.env.REACT_APP_API_ENDPOINT;
   const initValues = prepareInitValues(isNew, data);
 
   const sendData = async (request) => {
     return await axios
-      .post("http://localhost:9010/admin/products/update", request)
+      .post(`${host}/admin/products/update`, request)
       .then((result) => {
         return { status: result.status, message: result.data.successMessage };
       })

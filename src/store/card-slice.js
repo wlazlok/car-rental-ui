@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initCardState = { items: [] };
+const host = process.env.REACT_APP_API_ENDPOINT;
 
 const cardSlice = createSlice({
   name: "card",
@@ -16,9 +17,7 @@ const cardSlice = createSlice({
 export const fetchCardData = () => {
   return async (dispatch) => {
     const fetchData = async () => {
-      const response = await axios.get(
-        "http:///localhost:9010/api/react/products"
-      );
+      const response = await axios.get(`${host}/api/react/products`);
       return response.data.cardItems;
     };
 
