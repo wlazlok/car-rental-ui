@@ -12,9 +12,11 @@ import AboutProductPage from "./pages/AboutProductPage";
 import AdminProductsPage from "./pages/admin/AdminProductsPage";
 import AdminEditProductPage from "./pages/admin/AdminEditProductPage";
 import AdminAddProductPage from "./pages/admin/AdminAddProductPage";
+import RegistrationPage from "./pages/RegistrationPage";
 
 function App() {
   console.log(process.env.REACT_APP_API_ENDPOINT);
+
   return (
     <Layout>
       <Switch>
@@ -23,6 +25,9 @@ function App() {
         </Route>
         <Route path="/home">
           <HomePage />
+        </Route>
+        <Route path="/register">
+          <RegistrationPage />
         </Route>
         <Route path="/products" exact>
           <ProductsPage />

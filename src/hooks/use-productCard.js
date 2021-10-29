@@ -16,7 +16,12 @@ const useProductCard = () => {
       setIsError(false);
 
       await axios
-        .get(`${host}/api/react/products`)
+        .get(`${host}/api/react/products`, {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2MzU0MTAxNTUsImV4cCI6MTYzNjIzOTYwMH0.0JmazlAo3VU-PAHfRQXqgtgxNhyFUL0YHyRhQTOreh3AxE7DyhIUplWQ2czp23L-nkXLw7kULCEYxhDYrwrLGA",
+          },
+        })
         .then((result) => {
           setResponse(result.data);
         })
