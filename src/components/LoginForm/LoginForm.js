@@ -37,7 +37,10 @@ const LoginForm = (props) => {
           props.onSuccess();
         })
         .catch((err) => {
-          if (err.response.status === 403) {
+          console.log(err.response);
+          if (err.response === undefined) {
+            setErrorMsg("Wystąpił nieoczekiwany błąd.");
+          } else if (err.response.status === 403) {
             setErrorMsg("Podano błędne dane logowania!");
           } else {
             setErrorMsg("Wystąpił nieoczekiwany błąd.");
