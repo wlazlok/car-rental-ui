@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import { version } from "../../../package.json";
 import { Link } from "react-router-dom";
 import PopupLogin from "../Dialogs/PopupLogin";
+import UserMenu from "../Menus/UserMenu";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -27,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MainAppBar = () => {
   const classes = useStyles();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   return (
     <div>
@@ -36,7 +39,7 @@ const MainAppBar = () => {
             {/* Karol's Car Rental */}
             TUTAJ NAZWA <font size={1}>v{version} </font>
           </Typography>
-          <PopupLogin />
+          {!isLoggedIn ? <PopupLogin /> : <UserMenu />}
         </Toolbar>
       </AppBar>
     </div>

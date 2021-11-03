@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-
 import classes from "./MainNavigation.module.css";
 
 const MainNavigation = () => {
@@ -38,11 +37,6 @@ const MainNavigation = () => {
           <li>
             <NavLink to="/contact" activeClassName={classes.active}>
               Kontakt
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin" activeClassName={classes.active}>
-              Admin - usunąć
             </NavLink>
           </li>
         </ul>

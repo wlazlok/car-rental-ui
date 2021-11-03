@@ -15,8 +15,6 @@ import AdminAddProductPage from "./pages/admin/AdminAddProductPage";
 import RegistrationPage from "./pages/RegistrationPage";
 
 function App() {
-  console.log(process.env.REACT_APP_API_ENDPOINT);
-
   return (
     <Layout>
       <Switch>
