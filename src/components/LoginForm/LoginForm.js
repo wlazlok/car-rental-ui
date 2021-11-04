@@ -48,6 +48,8 @@ const LoginForm = (props) => {
         .catch((err) => {
           if (err.response.status === 403) {
             setErrorMsg("Podano błędne dane logowania!");
+          } else if (err.response.status === 401) {
+            setErrorMsg("Błędny email lub hasło");
           } else {
             setErrorMsg("Wystąpił nieoczekiwany błąd.");
           }
@@ -102,6 +104,7 @@ const LoginForm = (props) => {
               autoComplete="email"
               autoFocus
               error={isError}
+              type="email"
             />
             {isLogin && (
               <TextField

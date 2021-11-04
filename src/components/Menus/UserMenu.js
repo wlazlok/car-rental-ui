@@ -41,7 +41,6 @@ const UserMenu = () => {
       return true;
     }
   });
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -96,7 +95,7 @@ const UserMenu = () => {
           </ListItemIcon>
           Ustawienia
         </MenuItem>
-        {isAdmin && (
+        {isAdmin[0] && (
           <Link to="/admin" style={{ color: "black" }}>
             <MenuItem>
               <ListItemIcon>

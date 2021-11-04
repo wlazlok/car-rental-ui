@@ -14,6 +14,7 @@ import AdminEditProductPage from "./pages/admin/AdminEditProductPage";
 import AdminAddProductPage from "./pages/admin/AdminAddProductPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import ActivateUserPage from "./pages/ActivateUserPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   return (
@@ -57,6 +58,9 @@ function App() {
         </Route>
         <Route path="/activate/:uuid/:userId" exact>
           <ActivateUserPage />
+        </Route>
+        <Route path="/reset/password/:uuid/:userId" exact>
+          <ResetPasswordPage />
         </Route>
         <Route path="*">
           <NotFound />
