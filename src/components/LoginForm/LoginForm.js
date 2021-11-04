@@ -55,7 +55,7 @@ const LoginForm = (props) => {
         });
     } else {
       await axios
-        .post(`${host}/api/react/user/reset-password`, {
+        .post(`${host}/api/react/user/reset-password/auth`, {
           email: data.get("email"),
         })
         .then((result) => {
