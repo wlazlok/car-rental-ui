@@ -87,7 +87,7 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "5%" }}>
       <Formik
         initialValues={initValues}
         onSubmit={onSubmitHandler}

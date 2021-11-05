@@ -5,12 +5,16 @@ import { alertActions } from "../store/alert-slice";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import DetailTable from "../components/Table/Table";
 import CarouselItem from "../components/Carousel/Carousel";
 import Button from "@material-ui/core/Button";
 import PricesTable from "../components/Table/PricesTable";
 import CommentItems from "../components/Comments/CommentItems";
+
+const host = process.env.REACT_APP_API_ENDPOINT;
+const cloudinary_host = process.env.REACT_APP_CLOUDINARY_URL;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +37,8 @@ const AboutProductPage = () => {
   const [response, setResponse] = useState(null);
   const { productId } = useParams();
   const dispatch = useDispatch();
-  const host = process.env.REACT_APP_API_ENDPOINT;
+
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -58,7 +63,7 @@ const AboutProductPage = () => {
     };
 
     fetchProductDetails();
-  }, []);
+  }, [isError]);
 
   let urls = [];
 
@@ -66,7 +71,7 @@ const AboutProductPage = () => {
     response.product.cloudinaryIds.map((item) => {
       urls.push(
         <img
-          src={`https://res.cloudinary.com/dfurufcqe/image/upload/w_1000,h_600,c_scale/v1616604961/${item.cloudinaryId}`}
+          src={`${cloudinary_host}/w_1000,h_600,c_scale/v1616604961/${item.cloudinaryId}`}
         />
       );
     });
@@ -74,10 +79,18 @@ const AboutProductPage = () => {
 
   const addComment = async (message) => {
     await axios
-      .post(`${host}/api/react/comment/add`, {
-        productId: productId,
-        message: message,
-      })
+      .post(
+        `${host}/api/react/comment/add`,
+        {
+          productId: productId,
+          message: message,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((result) => {
         setResponse(result.data);
       })

@@ -6,6 +6,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 
+const cloudinary_host = process.env.REACT_APP_CLOUDINARY_URL;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
@@ -28,7 +30,7 @@ const CardItem = (props) => {
           component="img"
           alt={`${cardItem.productName}`}
           height="400rem"
-          image={`https://res.cloudinary.com/dfurufcqe/image/upload/v1616604961/${cardItem.cloudinaryMainImageId}`}
+          image={`${cloudinary_host}/v1616604961/${cardItem.cloudinaryMainImageId}`}
           title="Contemplative Reptile"
         />
         <CardContent>

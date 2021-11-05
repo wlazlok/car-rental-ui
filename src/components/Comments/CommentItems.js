@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button, Comment, Form } from "semantic-ui-react";
+import { useSelector } from "react-redux";
 
 const CommentItems = (props) => {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(null);
   const comments = props.comments;
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const addComment = async () => {
     props.onAddComment(content);
@@ -16,17 +18,15 @@ const CommentItems = (props) => {
       <Comment.Group>
         {comments.length > 0 && (
           <Comment>
-            {/* todo: awatary dla użytkownika ??? */}
-            <Comment.Avatar
-              as="a"
-              src="https://cdn.iconscout.com/icon/premium/png-256-thumb/profile-1506810-1278719.png"
-            />
             <Comment.Content>
               {comments.map((item, index) => {
                 return (
                   <div key={index}>
-                    {/* todo: jak bedą użytkownicy to tutaj jego nazwa */}
-                    <Comment.Author as="a">{item.userName}</Comment.Author>
+                    <Comment.Avatar
+                      as="a"
+                      src="https://cdn.iconscout.com/icon/premium/png-256-thumb/profile-1506810-1278719.png"
+                    />
+                    <Comment.Author as="a">{item.author}</Comment.Author>
                     <Comment.Metadata>
                       <div>{item.date}</div>
                     </Comment.Metadata>
@@ -52,6 +52,7 @@ const CommentItems = (props) => {
             icon="edit"
             primary
             onClick={addComment}
+            disabled={!content || !isLoggedIn}
           />
         </Form>
       </Comment.Group>

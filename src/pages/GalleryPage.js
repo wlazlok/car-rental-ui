@@ -6,6 +6,8 @@ import ImageModal from "../components/ImageModal/ImageModal";
 import axios from "axios";
 import ImageButton from "react-image-button";
 
+const cloudinary_host = process.env.REACT_APP_CLOUDINARY_URL;
+
 const GalleryPage = () => {
   const [show, setShow] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -74,7 +76,7 @@ const GalleryPage = () => {
                               borderRadius: "20px",
                               cursor: "pointer",
                             }}
-                            src={`https://res.cloudinary.com/dfurufcqe/image/upload/w_400,h_250,c_scale/v1616604961/${img}`}
+                            src={`${cloudinary_host}/w_400,h_250,c_scale/v1616604961/${img}`}
                             alt={img}
                           />
                         }

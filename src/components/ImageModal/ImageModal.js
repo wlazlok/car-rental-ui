@@ -1,6 +1,8 @@
 import { Modal } from "react-bootstrap";
 import Image from "material-ui-image";
 
+const cloudinary_host = process.env.REACT_APP_CLOUDINARY_URL;
+
 const ImageModal = (props) => {
   const show = props.show;
   const handleClose = props.handleClose;
@@ -17,7 +19,7 @@ const ImageModal = (props) => {
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
         <Image
-          src={`https://res.cloudinary.com/dfurufcqe/image/upload/w_1100,h_600,c_scale/v1616604961/${imgUrl}`}
+          src={`${cloudinary_host}/w_1100,h_600,c_scale/v1616604961/${imgUrl}`}
           style={{ float: "center" }}
         />
       </Modal.Body>
