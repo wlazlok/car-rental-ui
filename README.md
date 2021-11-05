@@ -1,6 +1,18 @@
-# Getting Started with Create React App
+# Car Rental UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is part of my engineer's thesis, the UI created with React.js for my [car rental API](https://github.com/wlazlok/car-rental-api)
+
+### Used technologies:
+* React.js (17.0.2)
+* Redux Toolkit (1.6.1)
+* Axios (0.21.1)
+* Formik, Yup (2.2.9, 0.32.9)
+* MaterialUI (4.12.3)
+* Boostrap React (2.0.0)
+
+### Install and run (installed node.js required):
+1. npm install
+2. npm run
 
 ## Available Scripts
 
