@@ -4,12 +4,13 @@ import { alertActions } from "../../store/alert-slice";
 import AdminProductsTable from "../../components/Table/AdminProductsTable";
 import axios from "axios";
 
+const host = process.env.REACT_APP_API_ENDPOINT;
+
 const ProductsPage = () => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
-  const host = process.env.REACT_APP_API_ENDPOINT;
 
   useEffect(() => {
     const fetchpProductList = async () => {
@@ -33,7 +34,7 @@ const ProductsPage = () => {
       setIsLoading(false);
     };
     fetchpProductList();
-  }, []);
+  }, [isError]);
 
   const deleteProduct = async (productId) => {
     setIsError(false);
@@ -53,7 +54,7 @@ const ProductsPage = () => {
         setIsError(true);
         dispatch(
           alertActions.showAlert({
-            msg: "Wystąpił błąd podczas usuwania danych",
+            msg: err.response.data.errors[0].message,
             flag: true,
             status: "fail",
           })

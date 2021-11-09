@@ -12,8 +12,9 @@ import PopupDialog from "../Dialogs/PopupDialog";
 
 const useStyles = makeStyles((theme) => ({
   box: {
-    marginLeft: "25%",
-    marginRight: "25%",
+    // marginLeft: "25%",
+    // marginRight: "25%",
+    width: "90%",
     marginTop: "2%",
   },
   link: {
@@ -26,7 +27,6 @@ const AdminProductsTable = (props) => {
   const products = props.list;
 
   const deleteProduct = async (productId) => {
-    console.log("productId: " + productId);
     props.onDeleteProduct(productId);
   };
 

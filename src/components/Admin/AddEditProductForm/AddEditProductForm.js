@@ -3,9 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Col, Row, Form as BoostrapForm, Container } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { alertActions } from "../../../store/alert-slice";
+import { useHistory, useParams } from "react-router";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { useHistory } from "react-router";
+import EditImage from "../EditImage";
 
 const useStyles = makeStyles((theme) => ({
   row: {
@@ -58,7 +59,6 @@ const prepareRequest = (isNew, data, values) => {
     id: isNew ? "" : data.product.id,
     productName: values.productName,
     dayPrice: values.dayPrice,
-    cloudinaryIds: isNew ? null : data.product.cloudinaryIds, //todo zdjecia
     productDetails: {
       id: isNew ? "" : data.product.productDetails.id,
       productionYear: values.productionYear,
@@ -72,13 +72,15 @@ const prepareRequest = (isNew, data, values) => {
   return request;
 };
 
+const host = process.env.REACT_APP_API_ENDPOINT;
+
 const AddEditProductForm = (props) => {
+  const { productId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const isNew = props.isNew;
   const data = props.data ? props.data : {};
-  const host = process.env.REACT_APP_API_ENDPOINT;
   const initValues = prepareInitValues(isNew, data);
 
   const sendData = async (request) => {
@@ -89,13 +91,17 @@ const AddEditProductForm = (props) => {
       })
       .catch((err) => {
         if (err.response.status === 400) {
-          throw new Error();
-        } else {
+          return {
+            status: err.response.status,
+            message: err.response.data.errors[0].message,
+          };
+        } else if (err.response.status === 2000) {
           return {
             status: err.response.status,
             message: err.response.data.message,
-            //todo tutaj inaczej bedą błedy zwracane w innym obiekcie
           };
+        } else {
+          throw new Error();
         }
       });
   };
@@ -276,6 +282,39 @@ const AddEditProductForm = (props) => {
                     Zapisz
                   </Button>
                 </Col>
+              </Row>
+              <Row
+                className="justify-content-md-center"
+                style={{ marginTop: "1%" }}
+              >
+                <Col lg="6">
+                  <input
+                    type="file"
+                    className="form-control"
+                    name="file"
+                    onChange={(e) => {
+                      const formData = new FormData();
+                      formData.append("file", e.target.files[0]);
+                      props.onUpload(productId, formData);
+                      e.currentTarget.value = null;
+                    }}
+                    disabled={!data.product}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                {!!data.product &&
+                  data.product.cloudinaryIds.map((id) => {
+                    return (
+                      <Col xs={6} md={4} style={{ marginTop: "2%" }}>
+                        <EditImage
+                          imgId={id.cloudinaryId}
+                          productId={productId}
+                          onDelete={props.onDelete}
+                        />
+                      </Col>
+                    );
+                  })}
               </Row>
             </Container>
           </Form>
