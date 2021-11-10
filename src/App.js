@@ -16,6 +16,8 @@ import RegistrationPage from "./pages/RegistrationPage";
 import ActivateUserPage from "./pages/ActivateUserPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminEditAccount from "./pages/admin/AdminEditAccount";
+import AdminUsersListPage from "./pages/admin/AdminUsersListPage";
+import AdminEditUserAccountPage from "./pages/admin/AdminEditUserAccountPage";
 
 function App() {
   return (
@@ -56,6 +58,12 @@ function App() {
         </Route>
         <Route path="/admin/add">
           <AdminAddProductPage />
+        </Route>
+        <Route path="/admin/users" exact>
+          <AdminUsersListPage />
+        </Route>
+        <Route path="/admin/user/edit/:userId" exact>
+          <AdminEditUserAccountPage />
         </Route>
         <Route path="/admin/account" exact>
           <AdminEditAccount />

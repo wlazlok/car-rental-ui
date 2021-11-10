@@ -89,12 +89,17 @@ const UserMenu = () => {
           Konto
         </MenuItem>
         <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Ustawienia
-        </MenuItem>
+        <Link
+          to={isAdmin[0] ? "/admin/account" : "/account"}
+          style={{ color: "black" }}
+        >
+          <MenuItem>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Ustawienia
+          </MenuItem>
+        </Link>
         {isAdmin[0] && (
           <Link to="/admin" style={{ color: "black" }}>
             <MenuItem>

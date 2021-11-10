@@ -1,9 +1,10 @@
 import { Formik, Field, Form } from "formik";
 import { makeStyles } from "@material-ui/core/styles";
 import { Col, Row, Form as BoostrapForm, Container } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { alertActions } from "../../../store/alert-slice";
 import { useHistory, useParams } from "react-router";
+import { authActions } from "../../../store/auth-slice";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import EditImage from "../EditImage";
@@ -82,10 +83,15 @@ const AddEditProductForm = (props) => {
   const isNew = props.isNew;
   const data = props.data ? props.data : {};
   const initValues = prepareInitValues(isNew, data);
+  const token = useSelector((state) => state.auth.token);
 
   const sendData = async (request) => {
     return await axios
-      .post(`${host}/admin/products/update`, request)
+      .post(`${host}/admin/products/update`, request, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((result) => {
         return { status: result.status, message: result.data.successMessage };
       })

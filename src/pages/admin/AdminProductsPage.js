@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { alertActions } from "../../store/alert-slice";
+import { authActions } from "../../store/auth-slice";
+import { useSelector } from "react-redux";
 import AdminProductsTable from "../../components/Table/AdminProductsTable";
 import axios from "axios";
 
@@ -11,13 +13,18 @@ const ProductsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const fetchpProductList = async () => {
       setIsLoading(true);
       setIsError(false);
       await axios
-        .get(`${host}/admin/products`)
+        .get(`${host}/admin/products`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((result) => {
           setResponse(result.data);
         })
@@ -34,12 +41,16 @@ const ProductsPage = () => {
       setIsLoading(false);
     };
     fetchpProductList();
-  }, [isError]);
+  }, []);
 
   const deleteProduct = async (productId) => {
     setIsError(false);
     await axios
-      .delete(`${host}/admin/products/delete/${productId}`)
+      .delete(`${host}/admin/products/delete/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((result) => {
         setResponse(result.data);
         dispatch(

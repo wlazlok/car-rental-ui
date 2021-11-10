@@ -63,7 +63,7 @@ const AboutProductPage = () => {
     };
 
     fetchProductDetails();
-  }, [isError]);
+  }, []);
 
   let urls = [];
 

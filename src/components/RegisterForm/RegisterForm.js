@@ -6,6 +6,7 @@ import { alertActions } from "../../store/alert-slice";
 import { Alert } from "@mui/material";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import * as Yup from "yup";
@@ -68,6 +69,7 @@ const RegisterForm = (props) => {
   const isNew = props.isNew;
   const data = props.data;
   const initValues = prepareInitValues(data, isNew);
+  const token = useSelector((state) => state.auth.token);
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMsg] = useState(null);
@@ -96,7 +98,33 @@ const RegisterForm = (props) => {
           setErrorMsg(err.response.data.errors[0].message);
         });
     } else {
-      props.onUpdate(values);
+      const data = await axios
+        .post(`${host}/api/react/user/update`, values, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((r) => {
+          dispatch(
+            alertActions.showAlert({
+              msg: r.data.successMessage,
+              flag: true,
+              status: "ok",
+            })
+          );
+          return r.data.user;
+        })
+        .catch((err) => {
+          dispatch(
+            alertActions.showAlert({
+              msg: err.response.data.errors[0].message,
+              flag: true,
+              status: "fail",
+            })
+          );
+        });
+
+      props.onUpdate(data);
     }
   };
 
@@ -131,7 +159,7 @@ const RegisterForm = (props) => {
                     id="email"
                     name="email"
                     className="form-control"
-                    disabled={true}
+                    disabled={!isNew}
                   />
                   {errors.email && touched.email && printError(errors.email)}
                 </Col>

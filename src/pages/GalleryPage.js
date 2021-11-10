@@ -68,7 +68,7 @@ const GalleryPage = () => {
               <Row>
                 {item.cloudinaryIds.map((img) => {
                   return (
-                    <Col xs={6} md={4} key={img}>
+                    <Col xs={6} md={4} key={img} style={{ marginTop: "2%" }}>
                       <ImageButton
                         img={
                           <img

@@ -16,6 +16,7 @@ const HomePage = () => {
   // }, [dispatch]);
   // const cards = useSelector((state) => state.card.items);
   let urls = [];
+  console.log(response);
   if (!isLoading) {
     response.cardItems.map((card) => {
       urls.push(
