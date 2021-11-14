@@ -44,7 +44,6 @@ const ProductsPage = () => {
   }, []);
 
   const deleteProduct = async (productId) => {
-    setIsError(false);
     await axios
       .delete(`${host}/admin/products/delete/${productId}`, {
         headers: {
@@ -62,7 +61,6 @@ const ProductsPage = () => {
         );
       })
       .catch((err) => {
-        setIsError(true);
         dispatch(
           alertActions.showAlert({
             msg: err.response.data.errors[0].message,

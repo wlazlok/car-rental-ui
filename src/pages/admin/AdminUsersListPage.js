@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { authActions } from "../../store/auth-slice";
-import { useSelector } from "react-redux";
+import { alertActions } from "../../store/alert-slice";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import UsersTable from "../../components/Admin/UsersTable";
 
@@ -8,11 +8,14 @@ const host = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminUsersListPage = () => {
   const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(async () => {
     setIsLoading(true);
+    setIsError(false);
     await axios
       .get(`${host}/admin/user/all`, {
         headers: {
@@ -20,16 +23,26 @@ const AdminUsersListPage = () => {
         },
       })
       .then((r) => {
-        // console.log(r.data);
         setData(r.data);
       })
       .catch((err) => {
-        console.log(err.response);
+        setIsError(true);
+        dispatch(
+          alertActions.showAlert({
+            msg: err.response.data.errors[0].message,
+            flag: true,
+            status: "fail",
+          })
+        );
       });
     setIsLoading(false);
   }, []);
 
-  return <div>{!isLoading && data && <UsersTable list={data.users} />}</div>;
+  return (
+    <div>
+      {!isLoading && !isError && data && <UsersTable list={data.users} />}
+    </div>
+  );
 };
 
 export default AdminUsersListPage;

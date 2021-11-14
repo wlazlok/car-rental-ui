@@ -13,6 +13,6 @@ export const editAccountControllHandler = async (key, userId, token) => {
       return r.data;
     })
     .catch((err) => {
-      console.log(err.response);
+      return err.response;
     });
 };

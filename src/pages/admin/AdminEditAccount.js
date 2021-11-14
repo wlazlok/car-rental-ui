@@ -53,8 +53,7 @@ const AdminEditAccount = () => {
     await axios
       .get(`${host}/api/react/user/info`, {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrd2xhem85QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2MzY1Mjc5NzgsImV4cCI6MTYzNjU4NTIwMH0.7bqMHxmCDt_O3QHTgsOoiuMXef3LCUDcmPOTglHsmK2RVlDwoIh1WsJO0A_RS9yJIyMHUsYv0RETtnNJhUi51A`,
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((r) => {

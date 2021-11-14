@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import { Row, Col } from "react-bootstrap";
-import { useHistory } from "react-router";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { alertActions } from "../../store/alert-slice";
 import axios from "axios";
 import Divider from "@mui/material/Divider";
@@ -27,6 +25,7 @@ const printRow = (text) => {
 const AdminEditUserAccountPage = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+  const history = useHistory();
   const { userId } = useParams();
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -70,7 +69,14 @@ const AdminEditUserAccountPage = () => {
         setData(r.data);
       })
       .catch((err) => {
-        console.log(err.response);
+        dispatch(
+          alertActions.showAlert({
+            msg: err.response.data.errors[0].message,
+            flag: true,
+            status: "fail",
+          })
+        );
+        history.push("/admin/users");
       });
     setIsLoading(false);
   }, []);

@@ -7,6 +7,9 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { alertActions } from "../../store/alert-slice";
 
 const names = ["enabled", "credentialsNonExpired", "accountNonExpired"];
 
@@ -22,7 +25,9 @@ const getLabelByName = (name) => {
 };
 
 const UserControllForm = (props) => {
+  const history = useHistory();
   const data = props.data;
+  const dispatch = useDispatch();
   const forOtherUser = props.forOtherUser;
   const token = useSelector((state) => state.auth.token);
 
@@ -32,6 +37,17 @@ const UserControllForm = (props) => {
       data.id,
       token
     );
+    if (result.status === 400) {
+      dispatch(
+        alertActions.showAlert({
+          msg: result.data.errors[0].message,
+          flag: true,
+          status: "fail",
+        })
+      );
+      history.push("/admin/users");
+      return;
+    }
     props.onUpdate(result);
   };
 
