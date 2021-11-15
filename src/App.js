@@ -18,6 +18,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminEditAccount from "./pages/admin/AdminEditAccount";
 import AdminUsersListPage from "./pages/admin/AdminUsersListPage";
 import AdminEditUserAccountPage from "./pages/admin/AdminEditUserAccountPage";
+import EditAccountPage from "./pages/EditAccountPage";
 
 function App() {
   return (
@@ -49,6 +50,9 @@ function App() {
         </Route>
         <Route path="/contact">
           <ContactPage />
+        </Route>
+        <Route path="/account">
+          <EditAccountPage />
         </Route>
         <Route path="/admin" exact>
           <AdminProductsPage />

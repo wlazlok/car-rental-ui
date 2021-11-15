@@ -1,22 +1,15 @@
 import { Carousel } from "3d-react-carousal";
-// import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchCardData } from "../store/card-slice";
-import useProductCard from "../hooks/use-productCard";
 import { Link } from "react-router-dom";
+import { Divider } from "semantic-ui-react";
+import useProductCard from "../hooks/use-productCard";
+import HomePageItems from "../components/HomePageItems";
 
 const cloudinary_host = process.env.REACT_APP_CLOUDINARY_URL;
 
 const HomePage = () => {
   const { isLoading, response, isError } = useProductCard();
-
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchCardData());
-  // }, [dispatch]);
-  // const cards = useSelector((state) => state.card.items);
   let urls = [];
-  console.log(response);
+
   if (!isLoading) {
     response.cardItems.map((card) => {
       urls.push(
@@ -32,6 +25,8 @@ const HomePage = () => {
   return (
     <div style={{ marginTop: "2%" }}>
       {!isLoading && !isError && <Carousel slides={urls} autoplay={false} />}
+      <Divider />
+      <HomePageItems />
     </div>
   );
 };

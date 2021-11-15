@@ -2,120 +2,77 @@ import { Button, Col, Row, Form as BoostrapForm } from "react-bootstrap";
 import { Formik, Field, Form } from "formik";
 import { useDispatch } from "react-redux";
 import { alertActions } from "../../store/alert-slice";
-
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import axios from "axios";
+import * as Yup from "yup";
 
 const host = process.env.REACT_APP_API_ENDPOINT;
 
-const validateEmptyField = (value) => {
-  let error;
-  if (!value || value.split() === 0 || value.length === 0) {
-    error = "Wymagane";
-  } else if (value[0] === " ") {
-    error = "Niepoprawna wartość";
-  }
-  return error;
+const initValues = {
+  firstName: "",
+  secondName: "",
+  email: "",
+  phoneNumber: "",
+  msg: "",
 };
+
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+const contactSchema = Yup.object().shape({
+  firstName: Yup.string().required("Wymagane"),
+  secondName: Yup.string().required("Wymagane"),
+  email: Yup.string().required("Wymagane").email("Niepoprawny adres e-mail"),
+  phoneNumber: Yup.string()
+    .matches(phoneRegExp, "Niepoprawny numer telefonu")
+    .required("Wymagane"),
+  msg: Yup.string().required("Wymagane"),
+});
+
 const printError = (msg) => {
   return <div style={{ color: "red", fontWeight: "bold" }}>{msg}</div>;
-};
-
-const validateEmail = (value) => {
-  let error;
-  if (!value || value.split() === 0) {
-    error = "Wymagane";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    error = "Niepoprawny adres e-mail";
-  }
-
-  return error;
-};
-
-const validateNumber = (value) => {
-  let error;
-  if (!value || value.split() === 0) {
-    error = "Wymagane";
-  } else if (!/^\d+$/.test(value) || value.length < 9) {
-    error = "Niepoprawny numer telefonu";
-  }
-
-  return error;
-};
-
-const sendData = async (values) => {
-  return await axios
-    .post(`${host}/api/react/contact-form`, {
-      firstName: values.firstName,
-      secondName: values.secondName,
-      emailAddress: values.email,
-      phoneNumber: values.phoneNumber,
-      messageContent: values.msg,
-    })
-    .then((result) => {
-      return { status: result.status, message: result.data.message };
-    })
-    .catch((err) => {
-      if (err.response.status === 400) {
-        throw new Error();
-      } else {
-        return {
-          status: err.response.status,
-          message: err.response.data.message,
-        };
-      }
-    });
 };
 
 const ContactForm = () => {
   const dispatch = useDispatch();
 
   const onSubmitHandler = async (values, { resetForm }) => {
-    let response;
-    try {
-      response = await sendData(values);
-
-      if (response.status === 200) {
+    return await axios
+      .post(`${host}/api/react/contact-form`, {
+        firstName: values.firstName,
+        secondName: values.secondName,
+        emailAddress: values.email,
+        phoneNumber: values.phoneNumber,
+        messageContent: values.msg,
+      })
+      .then((r) => {
         dispatch(
           alertActions.showAlert({
-            msg: response.message,
+            msg: r.data.message,
             flag: true,
             status: "ok",
           })
         );
-      } else {
+        resetForm();
+      })
+      .catch((err) => {
         dispatch(
           alertActions.showAlert({
-            msg: response.message,
+            msg: err.response.data.errors[0].message,
             flag: true,
             status: "fail",
           })
         );
-      }
-
-      resetForm();
-    } catch (err) {
-      dispatch(
-        alertActions.showAlert({
-          msg: "Wystąpił błąd proszę spróbować ponownie",
-          flag: true,
-          status: "fail",
-        })
-      );
-    }
+      });
   };
 
   return (
     <div>
       <Formik
-        initialValues={{
-          firstName: "",
-          secondName: "",
-          email: "",
-          phoneNumber: "",
-          msg: "",
-        }}
+        initialValues={initValues}
         onSubmit={onSubmitHandler}
+        validationSchema={contactSchema}
+        validateOnChange={true}
+        validateOnBlur={false}
       >
         {({ errors, touched }) => (
           <Form>
@@ -127,7 +84,6 @@ const ContactForm = () => {
                     name="firstName"
                     className="form-control"
                     placeholder="Imię"
-                    validate={validateEmptyField}
                   />
                   {errors.firstName &&
                     touched.firstName &&
@@ -140,7 +96,6 @@ const ContactForm = () => {
                     name="secondName"
                     className="form-control"
                     placeholder="Nazwisko"
-                    validate={validateEmptyField}
                   />
                   {errors.secondName &&
                     touched.secondName &&
@@ -154,7 +109,6 @@ const ContactForm = () => {
                     name="email"
                     className="form-control"
                     placeholder="Adres e-mail"
-                    validate={validateEmail}
                   />
                   {errors.email && touched.email && printError(errors.email)}
                 </BoostrapForm.Group>
@@ -165,7 +119,6 @@ const ContactForm = () => {
                     name="phoneNumber"
                     className="form-control"
                     placeholder="Numer telefonu"
-                    validate={validateNumber}
                   />
                   {errors.phoneNumber &&
                     touched.phoneNumber &&
@@ -185,7 +138,6 @@ const ContactForm = () => {
                 name="msg"
                 className="form-control"
                 placeholder="Wiadomość"
-                validate={validateEmptyField}
                 style={{ height: "13rem" }}
               />
               {errors.msg && touched.msg && printError(errors.msg)}

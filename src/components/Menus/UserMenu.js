@@ -20,6 +20,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import jwt_decode from "jwt-decode";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 
+const cloudinary_host = process.env.REACT_APP_CLOUDINARY_URL;
+
 const useStyles = makeStyles(() => ({
   link: {
     textDecoration: "none",
@@ -35,6 +37,7 @@ const UserMenu = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const token = useSelector((state) => state.auth.token);
+  const userInfo = useSelector((state) => state.userInfo);
 
   const isAdmin = jwt_decode(token).authorities.map((auth) => {
     if (auth.authority === "ROLE_ADMIN") {
@@ -81,12 +84,13 @@ const UserMenu = () => {
       >
         <MenuItem>
           <Avatar
-            //   todo: awator sciągać z cloduinary?s
             src={
-              "https://pbs.twimg.com/profile_images/758084549821730820/_HYHtD8F.jpg"
+              userInfo.avatarUrl != ""
+                ? `${cloudinary_host}/v1616604961/${userInfo.avatarUrl}`
+                : "https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg"
             }
           />
-          Konto
+          {userInfo.name}
         </MenuItem>
         <Divider />
         <Link

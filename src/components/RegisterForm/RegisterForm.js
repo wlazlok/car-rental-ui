@@ -7,6 +7,7 @@ import { Alert } from "@mui/material";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
+import { userInfoActions } from "../../store/userInfo-slice";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import * as Yup from "yup";
@@ -110,6 +111,13 @@ const RegisterForm = (props) => {
               msg: r.data.successMessage,
               flag: true,
               status: "ok",
+            })
+          );
+          dispatch(
+            userInfoActions.saveInfo({
+              name: r.data.user.name,
+              username: r.data.user.username,
+              avatarUrl: r.data.user.avatarUrl,
             })
           );
           return r.data.user;

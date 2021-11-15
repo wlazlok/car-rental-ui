@@ -3,7 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Col, Row, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { alertActions } from "../../store/alert-slice";
+import { authActions } from "../../store/auth-slice";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import * as Yup from "yup";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -42,30 +44,36 @@ const ResetPasswordLoggedForm = (props) => {
   const classes = useStyles();
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
-  const forOherUser = props.forOtherUser;
+  const forOtherUser = props.forOtherUser;
   const userId = props.userId;
+  const history = useHistory();
 
   const onSubmitHandler = async (values, { resetForm }) => {
-    const url = forOherUser
+    const url = forOtherUser
       ? `${host}/admin/user/change-password?uId=${userId}`
       : `${host}/api/react/user/change-password`;
 
     await axios
       .post(url, values, {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrd2xhem85QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2MzY1Mjc5NzgsImV4cCI6MTYzNjU4NTIwMH0.7bqMHxmCDt_O3QHTgsOoiuMXef3LCUDcmPOTglHsmK2RVlDwoIh1WsJO0A_RS9yJIyMHUsYv0RETtnNJhUi51A`,
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((r) => {
+        console.log(r.data);
         dispatch(
           alertActions.showAlert({
-            msg: r.data.successMessage,
+            msg: forOtherUser
+              ? r.data.successMessage
+              : `${r.data.successMessage}, proszę zalogować się ponownie`,
             flag: true,
             status: "ok",
           })
         );
-        props.onChangePassword();
+        if (!forOtherUser) {
+          dispatch(authActions.deleteToken());
+          history.push("/");
+        }
         resetForm();
       })
       .catch((err) => {

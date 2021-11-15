@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { alertActions } from "../../store/alert-slice";
 import { authActions } from "../../store/auth-slice";
+import { userInfoActions } from "../../store/userInfo-slice";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -32,7 +33,7 @@ const LoginForm = (props) => {
     const data = new FormData(event.currentTarget);
 
     if (isLogin) {
-      await axios
+      const token = await axios
         .post(`${host}/api/react/user/login`, {
           username: data.get("email"),
           password: data.get("password"),
@@ -44,6 +45,8 @@ const LoginForm = (props) => {
             })
           );
           props.onSuccess();
+
+          return result.data;
         })
         .catch((err) => {
           if (err.response.status === 403) {
@@ -54,6 +57,29 @@ const LoginForm = (props) => {
             setErrorMsg("Wystąpił nieoczekiwany błąd.");
           }
           setIsError(true);
+        });
+
+      if (token === undefined) {
+        return;
+      }
+
+      axios
+        .get(`${host}/api/react/user/info/basic`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((r) => {
+          dispatch(
+            userInfoActions.saveInfo({
+              username: r.data.username,
+              name: r.data.name,
+              avatarUrl: r.data.avatarUrl,
+            })
+          );
+        })
+        .catch((err) => {
+          console.log(err.response);
         });
     } else {
       await axios
@@ -127,10 +153,6 @@ const LoginForm = (props) => {
                 }}
               />
             )}
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
               type="submit"
               fullWidth

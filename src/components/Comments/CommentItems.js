@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Button, Comment, Form } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 
+const cloudinary_host = process.env.REACT_APP_CLOUDINARY_URL;
+
 const CommentItems = (props) => {
   const [content, setContent] = useState(null);
   const comments = props.comments;
@@ -24,7 +26,11 @@ const CommentItems = (props) => {
                   <div key={index}>
                     <Comment.Avatar
                       as="a"
-                      src="https://cdn.iconscout.com/icon/premium/png-256-thumb/profile-1506810-1278719.png"
+                      src={
+                        item.avatarId != null
+                          ? `${cloudinary_host}/v1616604961/${item.avatarId}`
+                          : "https://cdn.iconscout.com/icon/premium/png-256-thumb/profile-1506810-1278719.png"
+                      }
                     />
                     <Comment.Author as="a">{item.author}</Comment.Author>
                     <Comment.Metadata>

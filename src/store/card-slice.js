@@ -22,8 +22,6 @@ export const fetchCardData = () => {
       return response.data.cardItems;
     };
 
-    await fetchData();
-
     const cardData = await fetchData();
     dispatch(
       cardActions.getAllOffer({

@@ -22,6 +22,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import Footer from "./Footer";
 
 const drawerWidth = 240;
 
@@ -100,6 +101,7 @@ const Layout = (props) => {
         <MainAppBar />
         <MainNavigation />
         <main>{props.children}</main>
+        <Footer />
       </div>
     );
   };

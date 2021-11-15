@@ -12,14 +12,14 @@ const ImageModal = (props) => {
     <Modal
       show={show}
       onHide={handleClose}
-      size="lg" //xl
+      size="xl" //xl, lg
       centered
       aria-labelledby="contained-modal-title-vcenter"
     >
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
         <Image
-          src={`${cloudinary_host}/w_1100,h_600,c_scale/v1616604961/${imgUrl}`}
+          src={`${cloudinary_host}/w_1100,h_900,c_scale/v1616604961/${imgUrl}`}
           style={{ float: "center" }}
         />
       </Modal.Body>

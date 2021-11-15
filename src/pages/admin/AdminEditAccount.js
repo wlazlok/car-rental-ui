@@ -10,6 +10,7 @@ import RegisterForm from "../../components/RegisterForm/RegisterForm";
 import ResetPasswordLoggedForm from "../../components/ResetPasswordForm/ResetPasswordLoggedForm";
 import Divider from "@mui/material/Divider";
 import UserControllForm from "../../components/Admin/UserControllForm";
+import AvatarPicker from "../../components/Avatar/AvatarPicker";
 
 const host = process.env.REACT_APP_API_ENDPOINT;
 
@@ -35,6 +36,7 @@ const AdminEditAccount = () => {
   const renderForm = () => {
     return (
       <div>
+        <AvatarPicker />
         {printRow("Moje dane")}
         <RegisterForm isNew={false} data={data} onUpdate={setData} />
         {printRow("Hasło")}
