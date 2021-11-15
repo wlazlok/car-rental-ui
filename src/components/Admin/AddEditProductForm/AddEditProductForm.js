@@ -4,10 +4,10 @@ import { Col, Row, Form as BoostrapForm, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { alertActions } from "../../../store/alert-slice";
 import { useHistory, useParams } from "react-router";
-import { authActions } from "../../../store/auth-slice";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import EditImage from "../EditImage";
+import * as Yup from "yup";
 
 const useStyles = makeStyles((theme) => ({
   row: {
@@ -17,27 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 const printError = (msg) => {
   return <div style={{ color: "red", fontWeight: "bold" }}>{msg}</div>;
-};
-
-const validateEmptyField = (value) => {
-  let error;
-  if (!value || value.split() === 0 || value.length === 0) {
-    error = "Wymagane";
-  } else if (value[0] === " ") {
-    error = "Niepoprawna wartość";
-  }
-  return error;
-};
-
-const validateNumber = (value) => {
-  let error;
-  if (!value) {
-    error = "Wymagane";
-  } else if (value && isNaN(value)) {
-    error = "Niepoprawna wartość";
-  }
-
-  return error;
 };
 
 const prepareInitValues = (isNew, data) => {
@@ -54,6 +33,19 @@ const prepareInitValues = (isNew, data) => {
     productionYear: isNew ? "" : data.product.productDetails.productionYear,
   };
 };
+
+const productSchema = Yup.object().shape({
+  productName: Yup.string().required("Wymagane"),
+  dayPrice: Yup.number().typeError("Błędna wartość").required("Wymagane"),
+  distanceLimitPerDay: Yup.number()
+    .typeError("Błędna wartość")
+    .required("Wymagane"),
+  drive: Yup.string().required("Wymagane"),
+  engine: Yup.string().required("Wymagane"),
+  gearbox: Yup.string().required("Wymagane"),
+  power: Yup.number().typeError("Błędna wartość").required("Wymagane"),
+  productionYear: Yup.number().required("Wymagane"),
+});
 
 const prepareRequest = (isNew, data, values) => {
   const request = {
@@ -150,7 +142,13 @@ const AddEditProductForm = (props) => {
 
   return (
     <div>
-      <Formik initialValues={initValues} onSubmit={onSubmitHandler}>
+      <Formik
+        initialValues={initValues}
+        onSubmit={onSubmitHandler}
+        validationSchema={productSchema}
+        validateOnChange={true}
+        validateOnBlur={false}
+      >
         {({ errors, touched }) => (
           <Form>
             <Container
@@ -166,7 +164,6 @@ const AddEditProductForm = (props) => {
                     name="productName"
                     className="form-control"
                     placeholder="Nazwa"
-                    validate={validateEmptyField}
                   />
                   {errors.productName &&
                     touched.productName &&
@@ -179,7 +176,6 @@ const AddEditProductForm = (props) => {
                     name="dayPrice"
                     className="form-control"
                     placeholder="Opłata dobowa"
-                    validate={validateNumber}
                   />
                   {errors.dayPrice &&
                     touched.dayPrice &&
@@ -197,7 +193,6 @@ const AddEditProductForm = (props) => {
                     name="gearbox"
                     className="form-control"
                     placeholder="Skrzynia"
-                    validate={validateEmptyField}
                   />
                   {errors.gearbox &&
                     touched.gearbox &&
@@ -210,7 +205,6 @@ const AddEditProductForm = (props) => {
                     name="drive"
                     className="form-control"
                     placeholder="Napęd"
-                    validate={validateEmptyField}
                   />
                   {errors.drive && touched.drive && printError(errors.drive)}
                 </Col>
@@ -226,7 +220,6 @@ const AddEditProductForm = (props) => {
                     name="engine"
                     className="form-control"
                     placeholder="Silnik"
-                    validate={validateEmptyField}
                   />
                   {errors.engine && touched.engine && printError(errors.engine)}
                 </Col>
@@ -237,7 +230,6 @@ const AddEditProductForm = (props) => {
                     name="power"
                     className="form-control"
                     placeholder="Moc (KM)"
-                    validate={validateNumber}
                   />
                   {errors.power && touched.power && printError(errors.power)}
                 </Col>
@@ -248,7 +240,6 @@ const AddEditProductForm = (props) => {
                     name="productionYear"
                     className="form-control"
                     placeholder="Rok produkcji"
-                    validate={validateNumber}
                   />
                   {errors.productionYear &&
                     touched.productionYear &&
@@ -266,7 +257,6 @@ const AddEditProductForm = (props) => {
                     name="distanceLimitPerDay"
                     className="form-control"
                     placeholder="Limit KM"
-                    validate={validateNumber}
                   />
                   {errors.distanceLimitPerDay &&
                     touched.distanceLimitPerDay &&
