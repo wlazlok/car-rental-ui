@@ -23,7 +23,14 @@ const HomePageItems = () => {
             </Link>
           </text>
         </Col>
-        <Col sm={3}>TUTAJ ZDJ</Col>
+        <Col sm={3}>
+          <img
+            src="https://lpinsurance.com/wp-content/uploads/2018/12/Rental-Car-Insurance-Choose-Wisely.jpg"
+            width="100%"
+            height="100%"
+            style={{ borderRadius: "5px" }}
+          />
+        </Col>
       </Row>
       <Divider />
       <Row className="justify-content-md-center">
@@ -33,7 +40,7 @@ const HomePageItems = () => {
               ZAINTERESOWANY? <br />
               SKONTAKTUJ SIĘ Z NAMI
             </h1>
-          </text>{" "}
+          </text>
           <br /> <br />
         </Col>
       </Row>
