@@ -35,7 +35,7 @@ const MainAppBar = () => {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             {/* Karol's Car Rental */}
-            TUTAJ NAZWA <font size={1}>v{version} </font>
+            Car Rental <font size={1}>v{version} </font>
           </Typography>
           {!isLoggedIn ? <PopupLogin /> : <UserMenu />}
         </Toolbar>

@@ -23,11 +23,12 @@ const useStyles = makeStyles(() => ({
 const generateSignupSchema = (isNew) => {
   return Yup.object().shape({
     email: Yup.string().required("Wymagane").email("Niepoprawny adres e-mail"),
-    password: isNew ? Yup.string().required("Wymagane") : Yup.string(),
-    // .matches(
-    //   "(?=.*[0-9])(?=.*[a-zżźćńółęąś])(?=.*[A-ZŻŹĆĄŚĘŁÓŃ])(?=.*[#?!@$%^&*-]).{6,16}",
-    //   "Hasło musi mieć długość od 6 do 16 znaków oraz być złożone tj. składać się z 3 elementów (duże/małe litery, cyfry, znaki specjalne #?!@$%^&*-)"
-    // ),
+    password: Yup.string()
+      .matches(
+        "(?=.*[0-9])(?=.*[a-zżźćńółęąś])(?=.*[A-ZŻŹĆĄŚĘŁÓŃ])(?=.*[#?!@$%^&*-]).{6,16}",
+        "Hasło musi mieć długość od 6 do 16 znaków oraz być złożone tj. składać się z 3 elementów (duże/małe litery, cyfry, znaki specjalne #?!@$%^&*-)"
+      )
+      .required("Wymagane"),
     passwordConfirm: isNew
       ? Yup.string()
           .oneOf([Yup.ref("password"), null], "Hasła muszą być identyczne")

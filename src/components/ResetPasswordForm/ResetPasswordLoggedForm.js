@@ -18,17 +18,22 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const changePasswordSchema = Yup.object().shape({
-  oldPassword: Yup.string().required("Podaj stare hasło"),
-  newPassword: Yup.string().required("Wymagane"),
-  // .matches(
-  //   "(?=.*[0-9])(?=.*[a-zżźćńółęąś])(?=.*[A-ZŻŹĆĄŚĘŁÓŃ])(?=.*[#?!@$%^&*-]).{6,16}",
-  //   "Hasło musi mieć długość od 6 do 16 znaków oraz być złożone tj. składać się z 3 elementów (duże/małe litery, cyfry, znaki specjalne #?!@$%^&*-)"
-  // ),
-  newPasswordConfirm: Yup.string()
-    .oneOf([Yup.ref("newPassword"), null], "Hasła muszą być identyczne")
-    .required("Wymagane"),
-});
+const changePasswordSchema = (forOther) => {
+  return Yup.object().shape({
+    oldPassword: forOther
+      ? Yup.string()
+      : Yup.string().required("Podaj stare hasło"),
+    newPassword: Yup.string()
+      .required("Wymagane")
+      .matches(
+        "(?=.*[0-9])(?=.*[a-zżźćńółęąś])(?=.*[A-ZŻŹĆĄŚĘŁÓŃ])(?=.*[#?!@$%^&*-]).{6,16}",
+        "Hasło musi mieć długość od 6 do 16 znaków oraz być złożone tj. składać się z 3 elementów (duże/małe litery, cyfry, znaki specjalne #?!@$%^&*-)"
+      ),
+    newPasswordConfirm: Yup.string()
+      .oneOf([Yup.ref("newPassword"), null], "Hasła muszą być identyczne")
+      .required("Wymagane"),
+  });
+};
 
 const printError = (msg) => {
   return <div style={{ color: "red", fontWeight: "bold" }}>{msg}</div>;
@@ -92,29 +97,33 @@ const ResetPasswordLoggedForm = (props) => {
       <Formik
         initialValues={initValues}
         onSubmit={onSubmitHandler}
-        validationSchema={changePasswordSchema}
+        validationSchema={changePasswordSchema(forOtherUser)}
         validateOnChange={false}
         validateOnBlur={false}
       >
         {({ errors, touched }) => (
           <Form>
             <Container className={classes.container}>
-              <Row className="justify-content-md-center">
-                <Col sm={6}>Aktualne hasło</Col>
-              </Row>
-              <Row className="justify-content-md-center">
-                <Col sm={6}>
-                  <Field
-                    id="oldPassword"
-                    name="oldPassword"
-                    className="form-control"
-                    type="password"
-                  />
-                  {errors.oldPassword &&
-                    touched.oldPassword &&
-                    printError(errors.oldPassword)}
-                </Col>
-              </Row>
+              {!forOtherUser && (
+                <Row className="justify-content-md-center">
+                  <Col sm={6}>Aktualne hasło</Col>
+                </Row>
+              )}
+              {!forOtherUser && (
+                <Row className="justify-content-md-center">
+                  <Col sm={6}>
+                    <Field
+                      id="oldPassword"
+                      name="oldPassword"
+                      className="form-control"
+                      type="password"
+                    />
+                    {errors.oldPassword &&
+                      touched.oldPassword &&
+                      printError(errors.oldPassword)}
+                  </Col>
+                </Row>
+              )}
               <Row className="justify-content-md-center">
                 <Col sm={6}>Nowe hasło</Col>
               </Row>

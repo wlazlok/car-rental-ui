@@ -25,11 +25,6 @@ const MainNavigation = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" activeClassName={classes.active}>
-              O firmie
-            </NavLink>
-          </li>
-          <li>
             <NavLink to="/gallery" activeClassName={classes.active}>
               Galeria
             </NavLink>

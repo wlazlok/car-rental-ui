@@ -4,7 +4,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import PricesPage from "./pages/PricesPage";
-import AbourPage from "./pages/AboutPage";
 import GalleryPage from "./pages/GalleryPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
@@ -41,9 +40,6 @@ function App() {
         </Route>
         <Route path="/prices">
           <PricesPage />
-        </Route>
-        <Route path="/about">
-          <AbourPage />
         </Route>
         <Route path="/gallery">
           <GalleryPage />
