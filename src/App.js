@@ -1,5 +1,6 @@
 import Layout from "./components/layout/Layout";
 import { Route, Switch, Redirect } from "react-router-dom";
+import { useEffect } from "react";
 
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
@@ -20,6 +21,17 @@ import AdminEditUserAccountPage from "./pages/admin/AdminEditUserAccountPage";
 import EditAccountPage from "./pages/EditAccountPage";
 
 function App() {
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+  const alertUser = (e) => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
+
   return (
     <Layout>
       <Switch>
