@@ -1,6 +1,6 @@
 {
   "name": "car-rental",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.4.1",
