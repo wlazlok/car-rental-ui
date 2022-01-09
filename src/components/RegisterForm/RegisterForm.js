@@ -23,12 +23,14 @@ const useStyles = makeStyles(() => ({
 const generateSignupSchema = (isNew) => {
   return Yup.object().shape({
     email: Yup.string().required("Wymagane").email("Niepoprawny adres e-mail"),
-    password: Yup.string()
-      .matches(
-        "(?=.*[0-9])(?=.*[a-zżźćńółęąś])(?=.*[A-ZŻŹĆĄŚĘŁÓŃ])(?=.*[#?!@$%^&*-]).{6,16}",
-        "Hasło musi mieć długość od 6 do 16 znaków oraz być złożone tj. składać się z 3 elementów (duże/małe litery, cyfry, znaki specjalne #?!@$%^&*-)"
-      )
-      .required("Wymagane"),
+    password: isNew
+      ? Yup.string()
+          .matches(
+            "(?=.*[0-9])(?=.*[a-zżźćńółęąś])(?=.*[A-ZŻŹĆĄŚĘŁÓŃ])(?=.*[#?!@$%^&*-]).{6,16}",
+            "Hasło musi mieć długość od 6 do 16 znaków oraz być złożone tj. składać się z 3 elementów (duże/małe litery, cyfry, znaki specjalne #?!@$%^&*-)"
+          )
+          .required("Wymagane")
+      : Yup.string(),
     passwordConfirm: isNew
       ? Yup.string()
           .oneOf([Yup.ref("password"), null], "Hasła muszą być identyczne")
@@ -50,6 +52,7 @@ const printError = (msg) => {
 };
 
 const prepareInitValues = (data, isNew) => {
+  console.log(data.avatarUrl);
   return {
     email: isNew ? "" : data.email,
     password: "",
@@ -61,6 +64,7 @@ const prepareInitValues = (data, isNew) => {
     appNumber: isNew ? "" : data.appNumber,
     postalCode: isNew ? "" : data.postalCode,
     city: isNew ? "" : data.city,
+    avatarUrl: isNew ? null : data.avatarUrl,
   };
 };
 
@@ -79,11 +83,11 @@ const RegisterForm = (props) => {
   const signupSchema = generateSignupSchema(isNew);
 
   const onSubmitHandler = async (values, { resetForm }) => {
+    console.log(values);
     if (isNew) {
       await axios
         .post(`${host}/api/react/user/register`, values)
         .then((result) => {
-          console.log(result);
           setIsError(false);
           dispatch(
             alertActions.showAlert({

@@ -30,11 +30,6 @@ const MainNavigation = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin" activeClassName={classes.active}>
-              ADMIN
-            </NavLink>
-          </li>
-          <li>
             <NavLink to="/contact" activeClassName={classes.active}>
               Kontakt
             </NavLink>

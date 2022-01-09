@@ -40,13 +40,13 @@ const AvatarPicker = () => {
         );
       });
   };
-
+  console.log(userInfo.avatarUrl);
   return (
     <Row className="justify-content-md-center" style={{ marginTop: "1%" }}>
       <Col sm={6}>
         <Image
           src={
-            userInfo.avatarUrl !== ""
+            userInfo.avatarUrl !== "" && userInfo.avatarUrl != null
               ? `${cloudinary_host}/v1616604961/${userInfo.avatarUrl}`
               : "https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg"
           }

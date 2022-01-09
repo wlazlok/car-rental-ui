@@ -33,7 +33,7 @@ const AdminEditUserAccountPage = () => {
   const renderForm = () => {
     return (
       <div>
-        {printRow("Moje dane")}
+        {printRow("Dane")}
         <RegisterForm isNew={false} data={data} onUpdate={setData} />
         {printRow("Hasło")}
         <ResetPasswordLoggedForm
