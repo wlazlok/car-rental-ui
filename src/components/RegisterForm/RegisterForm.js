@@ -52,7 +52,6 @@ const printError = (msg) => {
 };
 
 const prepareInitValues = (data, isNew) => {
-  console.log(data.avatarUrl);
   return {
     email: isNew ? "" : data.email,
     password: "",
@@ -83,7 +82,6 @@ const RegisterForm = (props) => {
   const signupSchema = generateSignupSchema(isNew);
 
   const onSubmitHandler = async (values, { resetForm }) => {
-    console.log(values);
     if (isNew) {
       await axios
         .post(`${host}/api/react/user/register`, values)
